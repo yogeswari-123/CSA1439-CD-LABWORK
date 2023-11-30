@@ -1,0 +1,31 @@
+#include <stdio.h>
+void generateCode(char op, int operand1, int operand2, int result) {
+    switch (op) {
+        case '+':
+            printf("ADD R%d, R%d, R%d\n", result, operand1, operand2);
+            break;
+        case '-':
+            printf("SUB R%d, R%d, R%d\n", result, operand1, operand2);
+            break;
+        case '*':
+            printf("MUL R%d, R%d, R%d\n", result, operand1, operand2);
+            break;
+        case '/':
+            printf("DIV R%d, R%d, R%d\n", result, operand1, operand2);
+            break;
+        default:
+            printf("Invalid operator\n");
+    }
+}
+
+int main() {
+    int operand1 = 1; 
+    int operand2 = 2; 
+    int result = 3;   
+    generateCode('+', operand1, operand2, result);
+    operand1 = result; 
+    operand2 = 4;      
+    result = 5;        
+    generateCode('*', operand1, operand2, result);
+    return 0;c
+}
