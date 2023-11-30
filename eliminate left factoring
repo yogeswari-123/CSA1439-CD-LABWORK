@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <string.h>
+void leftFactor(char *production) {
+    int len = strlen(production);
+    char nonTerminal = production[0];
+    int commonPrefixLen = 0;
+    while (production[commonPrefixLen + 1] == production[len - 1 - commonPrefixLen]) {
+        commonPrefixLen++;
+    }
+    if (commonPrefixLen > 0) {
+        printf("%c -> %.*s%c'\n", nonTerminal, commonPrefixLen, production + 1, nonTerminal);
+        printf("%c' -> %.*s\n", nonTerminal, commonPrefixLen, production + 1 + commonPrefixLen);
+    } else {
+        printf("%s\n", production);
+    }
+}
+int main() {
+    char productions[][10] = {"A -> aX", "A -> aY", "A -> bZ"};
+    printf("Original Grammar:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%s\n", productions[i]);
+    }
+    printf("\nLeft Factored Grammar:\n");
+    for (int i = 0; i < 3; i++) {
+        leftFactor(productions[i]);
+    }
+    return 0;
+}
