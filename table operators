@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define SIZE 100
+struct Symbol {
+    char name[30];
+    int address;
+};
+struct SymbolTable {
+    struct Symbol entries[SIZE];
+    int count;
+};
+void initializeSymbolTable(struct SymbolTable *symbolTable) {
+    symbolTable->count = 0;
+}
+void insertSymbol(struct SymbolTable *symbolTable, const char *name, int address) {
+    if (symbolTable->count < SIZE) {
+        strcpy(symbolTable->entries[symbolTable->count].name, name);
+        symbolTable->entries[symbolTable->count].address = address;
+        symbolTable->count++;
+        printf("Symbol '%s' inserted into the symbol table.\n", name);
+    } else {
+        printf("Symbol table overflow. Cannot insert more symbols.\n");
+    }
+}
+int lookupSymbol(struct SymbolTable *symbolTable, const char *name) {
+    for (int i = 0; i < symbolTable->count; i++) {
+        if (strcmp(symbolTable->entries[i].name, name) == 0) {
+            printf("Symbol '%s' found at address %d.\n", name, symbolTable->entries[i].address);
+            return 1; 
+        }
+    }
+    printf("Symbol '%s' not found in the symbol table.\n", name);
+    return 0;
+}
+void displaySymbolTable(struct SymbolTable *symbolTable) {
+    printf("\nSymbol Table:\n");
+    printf("--------------\n");
+    printf("| %-20s | %-10s |\n", "Name", "Address");
+    printf("--------------\n");
+    for (int i = 0; i < symbolTable->count; i++) {
+        printf("| %-20s | %-10d |\n", symbolTable->entries[i].name, symbolTable->entries[i].address);
+    }
+    printf("--------------\n");
+}
+int main() {
+    struct SymbolTable symbolTable;
+    initializeSymbolTable(&symbolTable);
+    insertSymbol(&symbolTable, "variable1", 100);
+    insertSymbol(&symbolTable, "variable2", 200);
+    displaySymbolTable(&symbolTable);
+    lookupSymbol(&symbolTable, "variable1");
+    lookupSymbol(&symbolTable, "variable3");c
+    return 0;
+}
