@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define MAX_EXPR_SIZE 100
+int getPrecedence(char op) {
+    switch(op) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        default:
+            return 0; 
+    }
+}
+
+void precedenceParse(char expr[]) {
+    char stack[MAX_EXPR_SIZE];
+    int stackTop = -1;
+    int i = 0;
+
+    while (expr[i] != '\0') {
+        if (isalnum(expr[i])) {
+            printf("%c ", expr[i]);
+        }
+        else {
+            while (stackTop >= 0 && getPrecedence(stack[stackTop]) >= getPrecedence(expr[i])) {
+                printf("%c ", stack[stackTop--]);
+            }
+            stack[++stackTop] = expr[i];
+        }
+        i++;
+    }
+    while (stackTop >= 0) {
+        printf("%c ", stack[stackTop--]);
+    }
+
+    printf("\n");
+}
+
+int main() {
+    char expr[MAX_EXPR_SIZE];
+
+    printf("Enter an arithmetic expression: ");
+    scanf("%s", expr);
+
+    printf("Precedence Parsing Result: ");
+    precedenceParse(expr);
+
+    return 0;
+}
